@@ -23,21 +23,14 @@ class Program
             var connectionString = config.GetSection("ConnectionString:MongoDB").Value;
             Console.WriteLine($"MongoDB Connection String: {connectionString}");
 
-            MongoDBContext context;
-
-            context = new MongoDBContext(connectionString);
-
-            var dataManager = new CartingDataManager(context);
-
-
             var cartItem1 = new CartItem
             {
                 Id = 777,
                 Name = "Item 777",
                 ImageUrl = "http://dummy.com/item777.jpg",
                 ImageAltText = "Image 777",
-                Price = 100,
-                Quantity = 4
+                Price = 1000000,
+                Quantity = 46
             };
 
             var cartItem2 = new CartItem
@@ -46,7 +39,7 @@ class Program
                 Name = "Item 777 new val",
                 ImageUrl = "http://dummy.com/item777.jpg",
                 ImageAltText = "Image 777_new_02",
-                Price = 10044,
+                Price = 100440000,
                 Quantity = 498
             };
 
@@ -56,26 +49,31 @@ class Program
                 Name = "Item 778",
                 ImageUrl = "http://dummy.com/item778.jpg",
                 ImageAltText = "Image 778",
-                Price = 177,
-                Quantity = 98
+                Price = 1770000,
+                Quantity = 99
             };
 
-            await dataManager.CreateNewCartAsync("878788");
+            MongoDBContext context;
+            context = new MongoDBContext(connectionString);
+            var dataManager = new CartingDataManager(context);
+            var service = new CartingService(dataManager);
 
-            await dataManager.AddItemToCartAsync("878788", cartItem1);
+            await service.AddItemToCartAsync("878788", cartItem1);
 
-            await dataManager.AddItemToCartAsync("878788", cartItem2);
+            await service.AddItemToCartAsync("878788", cartItem2);
 
-            await dataManager.AddItemToCartAsync("878788", cartItem3);
+            await service.AddItemToCartAsync("878788", cartItem3);
 
-            await dataManager.RemoveItemFromCartAsync("878788", 778);           
+            await service.RemoveItemFromCartAsync("878788", 778);
 
+            await service.AddItemToCartAsync("878789", cartItem2);
+
+            await service.AddItemToCartAsync("878789", cartItem1);
         }
         catch (Exception ex)
         {
             Console.WriteLine(ex.ToString());
         }
-
     }
 
     public static IHostBuilder CreateHostBuilder(string[] args) =>

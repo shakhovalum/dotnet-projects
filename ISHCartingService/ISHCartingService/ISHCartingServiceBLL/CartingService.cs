@@ -24,6 +24,13 @@ namespace ISHCartingService.ISHCartingServiceDAL
 
         public async Task AddItemToCartAsync(string cartId, CartItem item)
         {
+            var cart = await _manager.GetCartAsync(cartId);
+
+            if (cart == null) 
+            {
+                await   _manager.CreateNewCartAsync(cartId);
+            }
+
             await _manager.AddItemToCartAsync(cartId, item);
         }
 
