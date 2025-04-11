@@ -1,16 +1,9 @@
 ﻿using ISHCartingService.ISHCartingServiceDAL;
-using MongoDB.Bson;
-using MongoDB.Driver;
-using System;
-using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using System.IO;
 using ISHCartingService.ISHCartingServiceModels;
-
-
 
 class Program
 {
@@ -30,7 +23,7 @@ class Program
                 ImageUrl = "http://dummy.com/item777.jpg",
                 ImageAltText = "Image 777",
                 Price = 1000000,
-                Quantity = 46
+                Quantity = 49
             };
 
             var cartItem2 = new CartItem
@@ -53,22 +46,16 @@ class Program
                 Quantity = 99
             };
 
-            MongoDBContext context;
-            context = new MongoDBContext(connectionString);
+            var context = new MongoDBContext(connectionString);
             var dataManager = new CartingDataManager(context);
             var service = new CartingService(dataManager);
 
-            await service.AddItemToCartAsync("878788", cartItem1);
-
-            await service.AddItemToCartAsync("878788", cartItem2);
-
-            await service.AddItemToCartAsync("878788", cartItem3);
-
-            await service.RemoveItemFromCartAsync("878788", 778);
-
-            await service.AddItemToCartAsync("878789", cartItem2);
-
-            await service.AddItemToCartAsync("878789", cartItem1);
+            await service.AddItemToCartAsync("1001", cartItem1);
+            await service.AddItemToCartAsync("1001", cartItem2);
+            await service.AddItemToCartAsync("1001", cartItem3);
+            await service.RemoveItemFromCartAsync("1001", 778);
+            await service.AddItemToCartAsync("1002", cartItem2);
+            await service.AddItemToCartAsync("1002", cartItem1);
         }
         catch (Exception ex)
         {
@@ -77,17 +64,27 @@ class Program
     }
 
     public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
-                .ConfigureAppConfiguration((context, config) =>
+        Host.CreateDefaultBuilder(args)
+            .ConfigureAppConfiguration((context, config) =>
+            {
+                config.SetBasePath(Directory.GetCurrentDirectory());
+                config.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
+            })
+            .ConfigureLogging(logging =>
+            {
+                logging.ClearProviders();
+                logging.AddConsole();
+            })
+            .ConfigureServices((context, services) =>
+            {
+                services.AddSingleton<MongoDBContext>(sp =>
                 {
-                    config.SetBasePath(Directory.GetCurrentDirectory());
-                    config.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
-                })
-                .ConfigureLogging(logging =>
-                {
-                    logging.ClearProviders(); 
-                    logging.AddConsole(); 
+                    var configuration = sp.GetRequiredService<IConfiguration>();
+                    var connectionString = configuration.GetSection("ConnectionString:MongoDB").Value;
+                    return new MongoDBContext(connectionString);
                 });
 
+                services.AddTransient<ICartingDataManager, CartingDataManager>();
+                services.AddTransient<CartingService>();
+            });
 }
-
