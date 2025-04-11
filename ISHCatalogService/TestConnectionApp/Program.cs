@@ -1,9 +1,8 @@
-﻿using System;
-using System.Data.SqlClient;
+﻿using System.Data.SqlClient;
 
-class Program
+public class Program
 {
-    static void Main()
+    public static void Main()
     {
         var connectionString = "Server=localhost;Database=ISHCatalog;Trusted_Connection=True;";
         using (var connection = new SqlConnection(connectionString))

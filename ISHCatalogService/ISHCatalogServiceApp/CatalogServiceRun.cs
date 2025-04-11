@@ -1,14 +1,13 @@
-﻿using System;
-using ISHCatalogServiceBLL.Services;
+﻿using ISHCatalogServiceBLL.Services;
+using ISHCatalogServiceBLL.Entities;
 using ISHCatalogServiceDAL;
-using ISHCatalogServiceDAL.Entities;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace ISHCatalogServiceApp
 {
     class CatalogServiceRun
     {
-        static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var serviceProvider = new ServiceCollection()
                 .AddDbContext<CatalogContext>()
@@ -25,9 +24,9 @@ namespace ISHCatalogServiceApp
                 Image = "http://Cat01.jpg"
             };
 
-            catalogService.AddCategory(newCategory);
+            await catalogService.AddCategoryAsync(newCategory);
 
-            var categories = catalogService.GetCategories();
+            var categories = await catalogService.GetCategoriesAsync();
             foreach (var category in categories)
             {
                 Console.WriteLine($"Category: {category.Name}, Image: {category.Image}");
@@ -43,9 +42,9 @@ namespace ISHCatalogServiceApp
                 Amount = 50
             };
 
-            itemService.AddItem(newItem);
+            await itemService.AddItemAsync(newItem);
 
-            var items = itemService.GetItems();
+            var items = await itemService.GetItemsAsync(); 
             foreach (var item in items)
             {
                 Console.WriteLine($"Item: {item.Name}, Category: {item.CategoryId}");
