@@ -1,12 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Microsoft.EntityFrameworkCore;
-using ISHCatalogServiceDAL.Entities;
-using System.Reflection.Emit;
+﻿using Microsoft.EntityFrameworkCore;
+using ISHCatalogServiceBLL.Entities;
 
 namespace ISHCatalogServiceDAL
 {
@@ -40,7 +33,7 @@ namespace ISHCatalogServiceDAL
                 entity.Property(e => e.Name).IsRequired().HasMaxLength(50);
                 entity.Property(e => e.Description).IsRequired(false);
                 entity.Property(e => e.Image).IsRequired(false);
-                entity.Property(e => e.Price).IsRequired();
+                entity.Property(e => e.Price).IsRequired().HasColumnType("decimal(18,2)"); 
                 entity.Property(e => e.Amount).IsRequired();
                 entity.HasOne(e => e.Category)
                       .WithMany()

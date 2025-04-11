@@ -4,7 +4,7 @@ using MongoDB.Bson;
 
 namespace ISHCartingService.ISHCartingServiceDAL
 {
-    public class CartingDataManager
+    public class CartingDataManager : ICartingDataManager
     {
         private readonly MongoDBContext _context;
 
@@ -20,7 +20,14 @@ namespace ISHCartingService.ISHCartingServiceDAL
 
         public async Task AddItemToCartAsync(string cartId, CartItem item)
         {
-            var cartItemFromDb = FindCartItemByCartIdAndItemId(cartId, item.Id);
+            var cart = await GetCartAsync(cartId);
+
+            if (cart == null)
+            {
+                throw new ArgumentNullException(nameof(cart));
+            }
+
+            var cartItemFromDb = cart.Items.FirstOrDefault(i => i.Id == item.Id);
 
             if (cartItemFromDb == null || !AreCartItemsEqual(cartItemFromDb, item))
             {
@@ -66,10 +73,10 @@ namespace ISHCartingService.ISHCartingServiceDAL
             await _context.Carts.InsertOneAsync(cart);
         }
 
-        private CartItem FindCartItemByCartIdAndItemId(string cartId, int cartItemId)
+        private async Task<CartItem> FindCartItemByCartIdAndItemIdAsync(string cartId, int cartItemId)
         {
             var filter = Builders<Cart>.Filter.Eq(c => c.Id, cartId);
-            var cart = _context.Carts.Find(filter).FirstOrDefault();
+            var cart = await _context.Carts.Find(filter).FirstOrDefaultAsync();
 
             return cart?.Items.FirstOrDefault(item => item.Id == cartItemId);
         }
