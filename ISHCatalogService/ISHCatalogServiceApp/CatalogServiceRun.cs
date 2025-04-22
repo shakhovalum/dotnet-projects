@@ -34,9 +34,9 @@ namespace ISHCatalogServiceApp
 
             var newItem = new Item
             {
-                Name = "Cat2",
-                Description = "Desc2",
-                Image = "http://Cat2.jpg",
+                Name = "Item1",
+                Description = "DescItem1",
+                Image = "http://Item1.jpg",
                 CategoryId = newCategory.Id,
                 Price = 100,
                 Amount = 50
