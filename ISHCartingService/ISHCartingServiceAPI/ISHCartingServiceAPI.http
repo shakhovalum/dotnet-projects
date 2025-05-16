@@ -1,0 +1,32 @@
+@ISHCartingServiceAPI_HostAddress = http://localhost:5202
+
+# Get cart info
+GET {{ISHCartingServiceAPI_HostAddress}}/v1/cart/1001
+Accept: application/json
+
+# Get cart items
+GET {{ISHCartingServiceAPI_HostAddress}}/v2/cart/1001/items
+Accept: application/json
+
+###
+
+# Add item to cart
+POST {{ISHCartingServiceAPI_HostAddress}}/v1/cart/1001/items
+Content-Type: application/json
+
+{
+  "Id": 1,
+  "Name": "Item Name",
+  "ImageUrl": "http://example.com/image.jpg",
+  "ImageAltText": "Image Alt Text",
+  "Price": 10.99,
+  "Quantity": 1
+}
+
+###
+
+# Delete item from cart
+DELETE {{ISHCartingServiceAPI_HostAddress}}/v1/cart/1001/items/777
+Accept: application/json
+
+###
