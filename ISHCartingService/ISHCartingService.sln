@@ -5,6 +5,8 @@ VisualStudioVersion = 17.7.34024.191
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ISHCartingService", "ISHCartingService\ISHCartingService.csproj", "{37426519-0B61-4C54-B3B8-3CBA32C12B84}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ISHCartingServiceAPI", "ISHCartingServiceAPI\ISHCartingServiceAPI.csproj", "{71A45213-E5CB-45BE-B3F8-7805D125C764}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{37426519-0B61-4C54-B3B8-3CBA32C12B84}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{37426519-0B61-4C54-B3B8-3CBA32C12B84}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{37426519-0B61-4C54-B3B8-3CBA32C12B84}.Release|Any CPU.Build.0 = Release|Any CPU
+		{71A45213-E5CB-45BE-B3F8-7805D125C764}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{71A45213-E5CB-45BE-B3F8-7805D125C764}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{71A45213-E5CB-45BE-B3F8-7805D125C764}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{71A45213-E5CB-45BE-B3F8-7805D125C764}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

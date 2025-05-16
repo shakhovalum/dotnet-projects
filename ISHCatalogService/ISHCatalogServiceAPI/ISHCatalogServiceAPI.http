@@ -1,0 +1,6 @@
+@ISHCatalogServiceAPI_HostAddress = http://localhost:5014
+
+GET {{ISHCatalogServiceAPI_HostAddress}}/api/
+Accept: application/json
+
+###
