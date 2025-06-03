@@ -16,7 +16,7 @@ namespace ISHCartingService.ISHCartingServiceDAL
     {
         private IMongoDatabase _database;
 
-        public MongoDBContext(string connectionString)
+        public MongoDBContext(string connectionString = "")
         {
             var client = new MongoClient("mongodb://localhost:27017");
             _database = client.GetDatabase("CartingServiceDB");

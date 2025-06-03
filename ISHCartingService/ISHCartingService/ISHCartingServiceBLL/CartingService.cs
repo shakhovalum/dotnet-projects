@@ -38,5 +38,11 @@ namespace ISHCartingService.ISHCartingServiceDAL
         {
             await _manager.RemoveItemFromCartAsync(cartId, itemId);
         }
+
+        public async Task<List<CartItem>> GetCartItemsAsync(string cartId)
+        {
+            var cart = await _manager.GetCartAsync(cartId);
+            return cart?.Items ?? new List<CartItem>();
+        }
     }
 }
