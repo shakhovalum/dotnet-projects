@@ -33,6 +33,8 @@ namespace ISHCatalogServiceBLL.Services
         {
             _context.Items.Update(item);
             await _context.SaveChangesAsync();
+            IItemPublisher publisher = new ItemPublisher();
+            await publisher.publishItemUpdatedAsync(item);
         }
 
         public async Task DeleteItemAsync(int id)
