@@ -19,6 +19,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ISHCatalogServiceBLL\ISHCatalogServiceBLL.csproj" />
+    <ProjectReference Include="..\ISHMessagingLibrary\ISHMessagingLibrary.csproj" />
   </ItemGroup>
 
 </Project>
