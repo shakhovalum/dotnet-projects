@@ -1,7 +1,8 @@
-﻿using ISHCatalogServiceBLL.Services;
-using ISHCatalogServiceAPI.DTOs;
-using Microsoft.AspNetCore.Mvc;
+﻿using ISHCatalogServiceAPI.DTOs;
 using ISHCatalogServiceBLL.Entities;
+using ISHCatalogServiceBLL.Services;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace ISHCatalogServiceAPI.Controllers
 {
@@ -17,6 +18,7 @@ namespace ISHCatalogServiceAPI.Controllers
         }
 
         [HttpGet]
+        [Authorize(Policy = "BuyerPolicy")]
         public async Task<ActionResult<IEnumerable<CategoryDto>>> GetCategories()
         {
             var categories = await _catalogService.GetCategoriesAsync();
@@ -33,6 +35,7 @@ namespace ISHCatalogServiceAPI.Controllers
         }
 
         [HttpGet("{id}")]
+        [Authorize(Policy = "BuyerPolicy")]
         public async Task<ActionResult<CategoryDto>> GetCategoryById(int id)
         {
             var category = await _catalogService.GetCategoryByIdAsync(id);
@@ -54,6 +57,7 @@ namespace ISHCatalogServiceAPI.Controllers
         }
 
         [HttpPost]
+        [Authorize(Policy = "ManagerPolicy")]
         public async Task<ActionResult> AddCategory(CategoryDto categoryDto)
         {
             var category = new Category
@@ -69,6 +73,7 @@ namespace ISHCatalogServiceAPI.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize(Policy = "ManagerPolicy")]
         public async Task<ActionResult> UpdateCategory(int id, CategoryDto categoryDto)
         {
             var category = new Category
@@ -85,6 +90,7 @@ namespace ISHCatalogServiceAPI.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Policy = "ManagerPolicy")]
         public async Task<ActionResult> DeleteCategory(int id)
         {
             await _catalogService.DeleteCategoryAsync(id);
