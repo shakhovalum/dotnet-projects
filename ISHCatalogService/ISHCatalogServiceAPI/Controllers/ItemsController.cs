@@ -1,5 +1,6 @@
 ﻿using ISHCatalogServiceBLL.Services;
 using ISHCatalogServiceAPI.DTOs;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,6 +21,7 @@ namespace ISHCatalogServiceAPI.Controllers
         }
 
         [HttpGet]
+        [Authorize(Policy = "BuyerPolicy")]
         public async Task<ActionResult<IEnumerable<ItemDto>>> GetItems([FromQuery] int? categoryId, [FromQuery] int page = 1, [FromQuery] int pageSize = 10)
         {
             var items = await _itemService.GetItemsAsync();
@@ -46,6 +48,7 @@ namespace ISHCatalogServiceAPI.Controllers
         }
 
         [HttpGet("{id}")]
+        [Authorize(Policy = "BuyerPolicy")]
         public async Task<ActionResult<ItemDto>> GetItemById(int id)
         {
             var item = await _itemService.GetItemByIdAsync(id);
@@ -70,6 +73,7 @@ namespace ISHCatalogServiceAPI.Controllers
         }
 
         [HttpPost]
+        [Authorize(Policy = "ManagerPolicy")]
         public async Task<ActionResult> AddItem(ItemDto itemDto)
         {
             var item = new Item
@@ -88,6 +92,7 @@ namespace ISHCatalogServiceAPI.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize(Policy = "ManagerPolicy")]
         public async Task<ActionResult> UpdateItem(int id, ItemDto itemDto)
         {
             var item = new Item
@@ -107,6 +112,7 @@ namespace ISHCatalogServiceAPI.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Policy = "ManagerPolicy")]
         public async Task<ActionResult> DeleteItem(int id)
         {
             await _itemService.DeleteItemAsync(id);
